@@ -174,14 +174,11 @@
 
 
         function getCookie() {
-            var clazz = "com.hihonor.hm.h5.container.js.method.CacheMethods";
-            var operationName = "clearStorage";
-            var params = JSON.stringify({ key: "key1" });
+            var params = JSON.stringify({ callback: "handleScreenShotCallback" });
             var requestId = "12345";
-            var callback = "handleScreenShotCallback";
 
             if (window.cookieStore && typeof window.cookieStore.getAll === "function") {
-                window.cookieStore.getAll(callback);
+                window.cookieStore.getAll(params);
             } else {
                 alert("cookieStore interface is not available.");
             }
