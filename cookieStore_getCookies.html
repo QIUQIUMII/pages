@@ -28,22 +28,28 @@
 
     <script>
         async function getCookies() {
-            try {
-                // 获取所有的 cookies
-                const cookies = await cookieStore.getAll();
+            // 检查 WebView 是否支持 cookieStore API
+            if (typeof cookieStore !== 'undefined' && typeof cookieStore.getAll === 'function') {
+                try {
+                    // 获取所有的 cookies
+                    const cookies = await cookieStore.getAll();
 
-                // 如果有 cookies，展示它们
-                if (cookies.length > 0) {
-                    const cookieDetails = cookies.map(cookie => {
-                        return `Name: ${cookie.name}\nValue: ${cookie.value}\nDomain: ${cookie.domain}\nPath: ${cookie.path}\nExpires: ${cookie.expires}\nSecure: ${cookie.secure}\nHttpOnly: ${cookie.httpOnly}\nSameSite: ${cookie.sameSite}\n\n`;
-                    }).join('');
-                    document.getElementById('cookies').textContent = cookieDetails;
-                } else {
-                    document.getElementById('cookies').textContent = "No cookies found.";
+                    // 如果有 cookies，展示它们
+                    if (cookies.length > 0) {
+                        const cookieDetails = cookies.map(cookie => {
+                            return `Name: ${cookie.name}\nValue: ${cookie.value}\nDomain: ${cookie.domain}\nPath: ${cookie.path}\nExpires: ${cookie.expires}\nSecure: ${cookie.secure}\nHttpOnly: ${cookie.httpOnly}\nSameSite: ${cookie.sameSite}\n\n`;
+                        }).join('');
+                        document.getElementById('cookies').textContent = cookieDetails;
+                    } else {
+                        document.getElementById('cookies').textContent = "No cookies found.";
+                    }
+                } catch (error) {
+                    console.error("Error retrieving cookies:", error);
+                    document.getElementById('cookies').textContent = "Error retrieving cookies.";
                 }
-            } catch (error) {
-                console.error("Error retrieving cookies:", error);
-                document.getElementById('cookies').textContent = "Error retrieving cookies.";
+            } else {
+                // 如果不支持 cookieStore.getAll，给出提示
+                document.getElementById('cookies').textContent = "This environment does not support cookieStore.getAll().";
             }
         }
     </script>
