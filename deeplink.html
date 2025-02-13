@@ -2,6 +2,9 @@
 <script>
   var json = '{"url": "https://laisicheng.github.io/pages/file_chooser_incept.html"}';
   var encodedJson = encodeURIComponent(json);
-  var intentUrl = "intent://launch.cn/todocode?cd=21001&content=" + encodedJson + "#Intent;scheme=heditor;package=com.hihonor.videoeditor;component=com.hihonor.videoeditor/.com.quvedio.sdk2b.templatesdk.activity.ThirdLaunch.Activity;end";
+  var intentUrl = "heditor://launch.cn/todocode?cd=21001&content=" + encodedJson;
+  var link = document.createElement('a');
+  link.href = intentUri;
+  link.textContent = "点击打开剪辑（com.hihonor.videoeditor）";
+  document.body.appendChild(link);
 </script>
-<a href="intent://launch.cn/todocode?cd=21001&content=a#Intent;scheme=heditor;package=com.hihonor.videoeditor;component=com.hihonor.vedioeditor/.com.quvideo.sdk2b.templatesdk.activity.ThirdLaunchActivity;end">点击打开剪辑</a>
