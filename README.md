@@ -1,2 +1,0 @@
-# pages
-pocs for hcsl
