@@ -3,6 +3,7 @@
   const activityName = urlParams.get('activity');
   
   if (activityName) {
+      alert(activityName);
       const issueData = {
           title: `Activity Access: ${activityName}`,
           body: `This issue logs the access of activity: ${activityName}.`
