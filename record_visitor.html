@@ -1,0 +1,23 @@
+<script>
+  const urlParams = new URLSearchParams(window.location.search);
+  const activityName = urlParams.get('activity');
+  
+  if (activityName) {
+      const issueData = {
+          title: `Activity Access: ${activityName}`,
+          body: `This issue logs the access of activity: ${activityName}.`
+      };
+      
+      fetch('https://api.github.com/repos/qiuqiumii/pages/issues', {
+          method: 'POST',
+          headers: {
+              'Authorization': 'token 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',
+              'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(issueData)
+      })
+      .then(response => response.json())
+      .then(data => console.log('Issue created:', data))
+      .catch(error => console.error('Error:', error));
+  }
+</script>
