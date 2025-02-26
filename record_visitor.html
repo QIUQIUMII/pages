@@ -1,52 +1,40 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Log Activity to GitHub Issues</title>
-</head>
-<body>
-    <h1>Log Activity</h1>
-    <p>This page logs activity data to GitHub Issues.</p>
+<script>
+    const GITHUB_API_URL = 'https://api.github.com/repos/qiuqiumii/pages/issues';
+    const TOKEN = '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';
 
-    <script>
-        const urlParams = new URLSearchParams(window.location.search);
-        const activityName = urlParams.get('activity');
-        
-        if (activityName) {
-            // GitHub API URL
-            const repoOwner = 'QIUQIUMII';  
-            const repoName = 'pages';       
-            const issueAPIUrl = `https://api.github.com/repos/${repoOwner}/${repoName}/issues`;
+    function createGitHubIssue(activityName) {
+        const issueData = {
+            title: `Activity: ${activityName} accessed`,
+            body: `Activity: ${activityName} was accessed at ${new Date().toISOString()}`,
+            labels: ['log', 'activity']
+        };
 
-            // GitHub Token
-            const token = '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'; 
+        fetch(GITHUB_API_URL, {
+            method: 'POST',
+            headers: {
+                'Authorization': `token ${TOKEN}`,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(issueData)
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log('GitHub Issue Created:', data);
+        })
+        .catch(error => {
+            console.error('Error creating GitHub Issue:', error);
+        });
+    }
 
-            const issueData = {
-                title: `Activity Access: ${activityName}`,
-                body: `This issue logs the access of activity: ${activityName}.`
-            };
-
-            fetch(issueAPIUrl, {
-                method: 'POST',
-                headers: {
-                    'Authorization': `token ${token}`,  
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(issueData)  
-            })
-            .then(response => response.json()) 
-            .then(data => {
-                console.log('Issue created:', data);
-                alert('Activity logged successfully!');
-            })
-            .catch(error => {
-                console.error('Error creating issue:', error);
-                alert('Failed to log activity.');
-            });
-        } else {
-            alert('No activity parameter found in the URL.');
+    function recordActivity() {
+        const activityName = new URLSearchParams(window.location.search).get('activity');
+        if (!activityName) {
+            console.error('Missing activity parameter!');
+            return;
         }
-    </script>
-</body>
-</html>
+
+        createGitHubIssue(activityName);
+    }
+
+    window.onload = recordActivity;
+</script>
