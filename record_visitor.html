@@ -1,24 +1,52 @@
-<script>
-  const urlParams = new URLSearchParams(window.location.search);
-  const activityName = urlParams.get('activity');
-  
-  if (activityName) {
-      alert(activityName);
-      const issueData = {
-          title: `Activity Access: ${activityName}`,
-          body: `This issue logs the access of activity: ${activityName}.`
-      };
-      
-      fetch('https://api.github.com/QIUQIUMII/pages/issues', {
-          method: 'POST',
-          headers: {
-              'Authorization': 'token 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',
-              'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(issueData)
-      })
-      .then(response => response.json())
-      .then(data => console.log('Issue created:', data))
-      .catch(error => console.error('Error:', error));
-  }
-</script>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Log Activity to GitHub Issues</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
+</head>
+<body>
+    <h1>Log Activity</h1>
+    <p>This page logs activity data to GitHub Issues.</p>
+
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const activityName = urlParams.get('activity');
+        
+        if (activityName) {
+            alert(activityName);
+            // GitHub API URL
+            const repoOwner = 'QIUQIUMII';  
+            const repoName = 'pages';       
+            const issueAPIUrl = `https://api.github.com/repos/${repoOwner}/${repoName}/issues`;
+
+            // GitHub Token
+            const token = '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'; 
+
+            // 请求的Issue数据
+            const issueData = {
+                title: `Activity Access: ${activityName}`,
+                body: `This issue logs the access of activity: ${activityName}.`
+            };
+
+            axios.post(issueAPIUrl, issueData, {
+                headers: {
+                    'Authorization': `token ${token}`,
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(response => {
+                console.log('Issue created:', response.data);
+                alert('Activity logged successfully!');
+            })
+            .catch(error => {
+                console.error('Error creating issue:', error);
+                alert('Failed to log activity.');
+            });
+        } else {
+            alert('No activity parameter found in the URL.');
+        }
+    </script>
+</body>
+</html>
