@@ -32,7 +32,7 @@
 
             axios.post(issueAPIUrl, issueData, {
                 headers: {
-                    'Authorization': `token ${token}`,
+                    'Authorization': `Bearer ${token}`,  // 使用 Bearer 格式传递Token
                     'Content-Type': 'application/json'
                 }
             })
